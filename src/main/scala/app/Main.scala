@@ -1,7 +1,7 @@
 package app
 
 import java.net.URI
-import java.time.OffsetDateTime
+import java.time.{LocalDate, OffsetDateTime}
 import java.util.UUID
 import io.circe.syntax.EncoderOps
 import io.cloudevents.core.builder.CloudEventBuilder
@@ -12,7 +12,8 @@ object Main extends App {
 
   val myProducer = producer.build()
   val key = UUID.randomUUID().toString
-  val myBook = Book("ethan", "Magic Book", Comic, 100, java.time.LocalDate.now())
+  val releaseDate = LocalDate.parse("2022-10-01")
+  val myBook = Book("ethan", "Magic Book", Comic, 100, releaseDate)
   val payload = myBook.asJson.noSpaces.map(_.toByte).toArray
   val value = CloudEventBuilder
     .v1()
