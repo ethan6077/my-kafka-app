@@ -7,7 +7,7 @@ This is a scala app to test out basic kafka functions.
 start kafka
 
 ```shell
-docker-compose up
+docker-compose up -d
 ```
 
 
