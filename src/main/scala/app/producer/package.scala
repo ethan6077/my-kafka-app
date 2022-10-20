@@ -35,7 +35,7 @@ package object producer {
   def consCloudEvent(): CloudEvent = {
     val releaseDate = LocalDate.parse("2022-10-01")
     val myBook = Book("ethan", "Magic Book", Comic, 100, releaseDate)
-    val payload = myBook.asJson.noSpaces.map(_.toByte).toArray
+    val payload = myBook.asJson.noSpaces.getBytes()
 
     CloudEventBuilder
       .v1()
@@ -43,7 +43,6 @@ package object producer {
       .withType("au.com.rea.V1")
       .withSource(URI.create("urn:rea:events:v1:source:rea-source-1"))
       .withTime(OffsetDateTime.now())
-      .withDataContentType("application/json")
       .withData(payload)
       .build();
   }
