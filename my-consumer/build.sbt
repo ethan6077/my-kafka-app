@@ -3,7 +3,7 @@ import Dependencies._
 ThisBuild / scalaVersion     := "2.13.8"
 ThisBuild / version          := "0.1.0-SNAPSHOT"
 ThisBuild / organization     := "com.example"
-ThisBuild / organizationName := "consumer"
+ThisBuild / organizationName := "app"
 
 val circeVersion = "0.14.1"
 val specs2Version = "4.17.0"
@@ -21,7 +21,7 @@ val myDependencies = Seq(
 
 lazy val root = (project in file("."))
   .settings(
-    name := "my-kafka-app",
+    name := "my-consumer",
     libraryDependencies ++= myDependencies
   )
 

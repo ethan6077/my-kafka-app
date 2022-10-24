@@ -17,9 +17,6 @@ package object consumer {
     val consumerProps = new Properties()
     consumerProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092")
     consumerProps.put(ConsumerConfig.GROUP_ID_CONFIG, "my-topic-group")
-    consumerProps.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true")
-    consumerProps.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000")
-    consumerProps.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, "30000")
 
     val newConsumer: KafkaConsumer[String, CloudEvent] =
       new KafkaConsumer[String, CloudEvent](consumerProps, new StringDeserializer, new CloudEventDeserializer)
@@ -30,8 +27,6 @@ package object consumer {
   }
 
   def receive(kafkaConsumer: KafkaConsumer[String, CloudEvent]): List[CloudEvent] = {
-    println("receiving a message ...")
-
     val records: ConsumerRecords[String, CloudEvent] = kafkaConsumer.poll(Duration.ofSeconds(5))
 
     println(s"Just polled ${records.count()} records.")
@@ -52,7 +47,7 @@ package object consumer {
         val maybeBook = getBook(event)
         maybeBook match {
           case Left(_) => println("decoding book json error!")
-          case Right(book) => println(s"Book Title: ${book.title}")
+          case Right(book) => println(s"--------------- Book Title: ${book.title} -------------------")
         }
       }
     }
