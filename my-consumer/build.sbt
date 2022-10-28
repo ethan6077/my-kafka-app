@@ -15,6 +15,8 @@ val myDependencies = Seq(
   "io.circe"                %% "circe-generic"                % circeVersion,
   "io.circe"                %% "circe-parser"                 % circeVersion,
   "io.circe"                %% "circe-literal"                % circeVersion,
+  "org.tpolecat"            %% "doobie-core"                  % "1.0.0-RC1",
+  "org.tpolecat"            %% "doobie-postgres"              % "1.0.0-RC1",
   "org.specs2"              %% "specs2-core"                  % specs2Version             % "test",
   "org.specs2"              %% "specs2-matcher-extra"         % specs2Version             % "test"
 )
