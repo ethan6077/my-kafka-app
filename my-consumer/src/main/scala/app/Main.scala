@@ -1,8 +1,8 @@
 package app
 
-import cats.effect.unsafe.implicits.global
-
+import java.time.LocalDate
 import scala.util.Try
+import app.schema.{Book, Tech}
 
 object Main extends App {
   println("starting consumer ...")
@@ -14,8 +14,12 @@ object Main extends App {
     consumer.printEvents(receivedEvents)
 
     println("starting db ...")
-    val firstBookTitle = db.findBookTitle(1).unsafeRunSync()
+    val firstBookTitle: String = db.findBookTitle(1)
     println(s"First Book Title: ${firstBookTitle}")
+    println("Create and save a book ...")
+    val releaseDate: LocalDate = LocalDate.parse("2022-11-02")
+    val techBook = Book("Paul", "Functional Programming in Scala", Tech, 200, releaseDate)
+    db.saveBook(techBook)
   }
 
   println("closing consumer ...")
