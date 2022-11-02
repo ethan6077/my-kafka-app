@@ -39,7 +39,7 @@ package object consumer {
     decode[Book](jsonString)
   }
 
-  def printEvents(events: List[CloudEvent]): Unit = {
+  def saveEvents(events: List[CloudEvent]): Unit = {
     println("printing events ...")
 
     events.foreach {
@@ -47,7 +47,10 @@ package object consumer {
         val maybeBook = getBook(event)
         maybeBook match {
           case Left(_) => println("decoding book json error!")
-          case Right(book) => println(s"--------------- Book Title: ${book.title} -------------------")
+          case Right(book) => {
+            println(s"--------------- Saving Book: ${book.title} -------------------")
+            db.saveBook(book)
+          }
         }
       }
     }

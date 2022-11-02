@@ -11,15 +11,16 @@ object Main extends App {
   while (true) {
     println("starting polling ...")
     val receivedEvents = consumer.receive(myConsumer)
-    consumer.printEvents(receivedEvents)
+    consumer.saveEvents(receivedEvents)
 
-    println("starting db ...")
-    val firstBookTitle: String = db.findBookTitle(1)
-    println(s"First Book Title: ${firstBookTitle}")
-    println("Create and save a book ...")
-    val releaseDate: LocalDate = LocalDate.parse("2022-11-02")
-    val techBook = Book("Paul", "Functional Programming in Scala", Tech, 200, releaseDate)
-    db.saveBook(techBook)
+//    println("starting db ...")
+//    val firstBookTitle: String = db.findBookTitle(1)
+//    println(s"First Book Title: ${firstBookTitle}")
+//
+//    println("Create and save a book ...")
+//    val releaseDate: LocalDate = LocalDate.parse("2022-11-02")
+//    val techBook = Book("Paul", "Functional Programming in Scala", Tech, 200, releaseDate)
+//    db.saveBook(techBook)
   }
 
   println("closing consumer ...")
