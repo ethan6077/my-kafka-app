@@ -64,6 +64,23 @@ This will put us in a kafka streaming terminal. To send messages to this topic w
 kafka-console-consumer --bootstrap-server broker:9092 --topic my-topic --from-beginning
 ```
 
-### Running the app
+### Running the my-consumer
 
-Run `./sbt` and then `run` to start the app.
+```bash
+cd my-consumer
+```
+
+```bash
+sbt run
+```
+
+### Running the my-producer
+
+```bash
+cd my-producer
+```
+
+```bash
+sbt run
+```
+

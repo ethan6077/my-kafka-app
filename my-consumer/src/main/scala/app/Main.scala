@@ -12,6 +12,8 @@ object Main extends App {
     println("starting polling ...")
     val receivedEvents = consumer.receive(myConsumer)
     consumer.saveEvents(receivedEvents)
+    // commit to kafka
+    myConsumer.commitSync()
 
 //    println("starting db ...")
 //    val firstBookTitle: String = db.findBookTitle(1)
