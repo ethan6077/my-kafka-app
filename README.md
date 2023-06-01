@@ -10,6 +10,12 @@ start kafka
 docker-compose up -d
 ```
 
+### Kafka UI
+
+```
+http://localhost:8081
+```
+
 
 ### Kafka diagnosis - could skip
 

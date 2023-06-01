@@ -1,17 +1,16 @@
 package app
 
-import java.util.Properties
-import java.time.Duration
-import io.cloudevents.CloudEvent
-import io.cloudevents.kafka.CloudEventDeserializer
+import app.schema.Book
 import io.circe.parser.decode
 import io.circe.{Error => CirceError}
-import org.apache.kafka.clients.consumer.{ConsumerConfig, ConsumerRecord, ConsumerRecords, KafkaConsumer}
+import io.cloudevents.CloudEvent
+import io.cloudevents.kafka.CloudEventDeserializer
+import org.apache.kafka.clients.consumer.{ConsumerConfig, KafkaConsumer}
 import org.apache.kafka.common.serialization.StringDeserializer
 
-import scala.jdk.CollectionConverters.{IterableHasAsJava, IterableHasAsScala}
+import java.util.Properties
+import scala.jdk.CollectionConverters.IterableHasAsJava
 import scala.language.postfixOps
-import app.schema.Book
 
 package object consumer {
   def build(): KafkaConsumer[String, CloudEvent] = {
@@ -29,34 +28,6 @@ package object consumer {
     newConsumer
   }
 
-  def receive(kafkaConsumer: KafkaConsumer[String, CloudEvent]): List[CloudEvent] = {
-    val records: ConsumerRecords[String, CloudEvent] = kafkaConsumer.poll(Duration.ofSeconds(10))
-
-    printRecordsInfo(records)
-
-    records.asScala.toList.map(_.value())
-  }
-
-  private def printRecordsInfo(records: ConsumerRecords[String, CloudEvent]): Unit = {
-    println(s"Just polled ${records.count()} records.")
-
-    val recordList: List[ConsumerRecord[String, CloudEvent]] = records.asScala.toList
-
-    recordList.foreach {
-      r => {
-        println("--------------------- record info ----------------------------")
-        println(s"record key: ${r.key()}")
-        println(s"record offset: ${r.offset()}")
-        println(s"record topic: ${r.topic()}")
-      }
-    }
-  }
-
-  private def getBook(event: CloudEvent): Either[CirceError, Book] = {
-    val jsonString = event.getData.toBytes.map(_.toChar).mkString
-    decode[Book](jsonString)
-  }
-
   def saveEvents(events: List[CloudEvent]): Unit = {
     println("printing events ...")
 
@@ -72,5 +43,10 @@ package object consumer {
         }
       }
     }
+  }
+
+  private def getBook(event: CloudEvent): Either[CirceError, Book] = {
+    val jsonString = event.getData.toBytes.map(_.toChar).mkString
+    decode[Book](jsonString)
   }
 }
