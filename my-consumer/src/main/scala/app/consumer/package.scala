@@ -30,7 +30,7 @@ package object consumer {
   }
 
   def receive(kafkaConsumer: KafkaConsumer[String, CloudEvent]): List[CloudEvent] = {
-    val records: ConsumerRecords[String, CloudEvent] = kafkaConsumer.poll(Duration.ofSeconds(5))
+    val records: ConsumerRecords[String, CloudEvent] = kafkaConsumer.poll(Duration.ofSeconds(10))
 
     printRecordsInfo(records)
 

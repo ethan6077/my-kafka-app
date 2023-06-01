@@ -4,9 +4,11 @@
 
 Book: https://www.oreilly.com/library/view/kafka-the-definitive/9781491936153/
 
-Chapter 4 - Consumer: https://www.oreilly.com/library/view/kafka-the-definitive/9781491936153/ch04.html
+Chapter 3- Writing message: [ref](https://www.oreilly.com/library/view/kafka-the-definitive/9781491936153/ch03.html?_gl=1*177fool*_ga*OTA0MTg1Njk2LjE2NzM5MzI3Nzk.*_ga_092EL089CH*MTY3MzkzNzExOC4yLjEuMTY3MzkzNzk5MS42MC4wLjA.#writing_messages_to_kafka)
 
-Confluent Kafka Consumer Doc: https://docs.confluent.io/platform/current/clients/consumer.html#ak-consumer
+Chapter 4 - Consumer: [ref](https://www.oreilly.com/library/view/kafka-the-definitive/9781491936153/ch04.html)
+
+Confluent Kafka Consumer Doc: [ref](https://docs.confluent.io/platform/current/clients/consumer.html#ak-consumer)
 
 ## Diagram
 

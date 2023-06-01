@@ -11,6 +11,7 @@ val specs2Version = "4.17.0"
 val myDependencies = Seq(
   "org.apache.kafka"        % "kafka-clients"                 % "3.3.1",
   "io.cloudevents"          % "cloudevents-kafka"             % "2.4.0",
+  "org.typelevel"           %% "cats-effect"                  % "2.5.3",
   "io.circe"                %% "circe-core"                   % circeVersion,
   "io.circe"                %% "circe-generic"                % circeVersion,
   "io.circe"                %% "circe-parser"                 % circeVersion,
