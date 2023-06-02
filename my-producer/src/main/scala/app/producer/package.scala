@@ -27,7 +27,7 @@ package object producer {
   def send(kafkaProducer: KafkaProducer[String, CloudEvent], key: String, value: CloudEvent): Unit = {
     println("sending a new message ...")
 
-    val record = new ProducerRecord("my-topic", key, value)
+    val record = new ProducerRecord("my-books-topic", key, value)
 
     kafkaProducer.send(record).get()
   }

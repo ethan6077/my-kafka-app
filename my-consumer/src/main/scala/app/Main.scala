@@ -14,21 +14,21 @@ object Main extends App {
   val streams: KafkaStreams = StreamProcessor.buildStreams()
   streams.start()
 
-    // EventProcessor
-    val myConsumer = EventProcessor.build()
+  // EventProcessor
+  val myConsumer = EventProcessor.buildStringConsumer()
 
-    while (true) {
-      println("starting polling ...")
-      val receivedEvents = EventProcessor.receive(myConsumer)
-      consumer.saveEvents(receivedEvents)
-      // commit to kafka
-      myConsumer.commitSync()
-    }
+  while (true) {
+    println("starting polling ...")
+    val receivedEvents = EventProcessor.receiveStringEvents(myConsumer)
+    //      consumer.saveEvents(receivedEvents)
+    // commit to kafka
+    myConsumer.commitSync()
+  }
 
-    println("closing consumer ...")
-    Try(myConsumer.close()).recover {
-      case _ => println("Failed to close the kafka consumer")
-    }
+  println("closing consumer ...")
+  Try(myConsumer.close()).recover {
+    case _ => println("Failed to close the kafka consumer")
+  }
 
   sys.ShutdownHookThread {
     streams.close(Duration.ofSeconds(10))

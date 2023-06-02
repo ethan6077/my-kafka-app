@@ -16,7 +16,7 @@ object Book {
     decode[Book](jsonString)
   }
 
-  def printTitle(book: Book): Unit  = {
+  def print(book: Book): Unit = {
     println(s"-----------------Book Title: ${book.title} ---------------------")
   }
 

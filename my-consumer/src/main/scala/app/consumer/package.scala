@@ -17,7 +17,7 @@ package object consumer {
           case Left(_) => println("decoding book json error!")
           case Right(book) => {
             println(s"--------------- Saving a Book: -------------------")
-            Book.printTitle(book)
+            Book.print(book)
             db.saveBook(book)
           }
         }
