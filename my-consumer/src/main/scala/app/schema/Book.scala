@@ -1,7 +1,9 @@
 package app.schema
 
+import io.circe.parser.decode
 import io.circe.syntax.EncoderOps
-import io.circe.{Decoder, DecodingFailure, Encoder, Json}
+import io.circe.{Decoder, DecodingFailure, Encoder, Json, Error => CirceError}
+import io.cloudevents.CloudEvent
 
 import java.time.LocalDate
 import scala.util.{Failure, Success, Try}
@@ -9,6 +11,15 @@ import scala.util.{Failure, Success, Try}
 case class Book(author: String, title: String, `type`: BookType, pages: Int, releaseDate: LocalDate)
 
 object Book {
+  def buildBookFromEvent(event: CloudEvent): Either[CirceError, Book] = {
+    val jsonString = event.getData.toBytes.map(_.toChar).mkString
+    decode[Book](jsonString)
+  }
+
+  def printTitle(book: Book): Unit  = {
+    println(s"-----------------Book Title: ${book.title} ---------------------")
+  }
+
   implicit val bookEncoder: Encoder[Book] =
     Encoder { field =>
       Json.obj(
