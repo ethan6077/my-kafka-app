@@ -1,16 +1,17 @@
 package app
 
-import java.net.URI
-import java.time.{LocalDate, OffsetDateTime}
-import java.util.{Properties, UUID}
+import app.schema.{Book, Comic, Tech}
+import io.circe.syntax.EncoderOps
 import io.cloudevents.CloudEvent
 import io.cloudevents.core.builder.CloudEventBuilder
 import io.cloudevents.kafka.CloudEventSerializer
 import org.apache.kafka.clients.CommonClientConfigs
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerConfig, ProducerRecord}
 import org.apache.kafka.common.serialization.StringSerializer
-import app.schema.{Book, Comic}
-import io.circe.syntax.EncoderOps
+
+import java.net.URI
+import java.time.{LocalDate, OffsetDateTime}
+import java.util.{Properties, UUID}
 
 package object producer {
   def build(): KafkaProducer[String, CloudEvent] = {
@@ -34,7 +35,8 @@ package object producer {
 
   def consCloudEvent(): CloudEvent = {
     val releaseDate = LocalDate.parse("2022-10-01")
-    val myBook = Book("ethan", "Magic Book", Comic, 100, releaseDate)
+//    val myBook = Book("ethan", "Magic Book", Comic, 100, releaseDate)
+    val myBook = Book("ethan", "Magic Book", Tech, 100, releaseDate)
     val payload = myBook.asJson.noSpaces.getBytes()
 
     CloudEventBuilder

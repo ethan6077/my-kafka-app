@@ -5,7 +5,8 @@ import java.util.UUID
 object Main extends App {
   println("starting producer ...")
   val myProducer = producer.build()
-  val key = UUID.randomUUID().toString
+//  val key = "COMIC"
+  val key = "TECH"
   val value = producer.consCloudEvent()
   producer.send(myProducer, key, value)
 

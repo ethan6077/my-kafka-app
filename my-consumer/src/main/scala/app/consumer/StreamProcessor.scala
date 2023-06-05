@@ -21,6 +21,7 @@ object StreamProcessor {
     val consumerProps = new Properties()
     consumerProps.put(StreamsConfig.APPLICATION_ID_CONFIG, "my-stream-processor-03")
     consumerProps.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092")
+    consumerProps.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, "1000")
     consumerProps
   }
 
