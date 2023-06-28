@@ -1,16 +1,27 @@
 package app
 
-import java.util.UUID
+import cats.effect.{ExitCode, IO, IOApp}
 
-object Main extends App {
-  println("starting producer ...")
-  val myProducer = producer.build()
-//  val key = "COMIC"
-  val key = "TECH"
-  val value = producer.consCloudEvent()
-  producer.send(myProducer, key, value)
+object Main extends IOApp {
+  override def run(args: List[String]): IO[ExitCode] = {
+    for {
+      _ <- IO(println("starting producer ..."))
+      _ <- startProducer
+      _ <- IO(println("closed producer ..."))
+    } yield ExitCode.Success
+  }
 
-  println("closing producer ...")
-  myProducer.flush()
-  myProducer.close()
+  private def startProducer: IO[Unit] = {
+    val producerResource = producer.buildKafkaProducerResource
+
+    producerResource.use {
+      producerClient => {
+        //  val key = "COMIC"
+        val key = "TECH"
+        val value = producer.consCloudEvent()
+        IO(producer.send(producerClient, key, value))
+      }
+    }
+  }
+
 }

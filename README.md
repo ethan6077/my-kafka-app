@@ -77,7 +77,18 @@ cd my-consumer
 ```
 
 ```bash
-sbt run
+sbt
+```
+
+Start the Event Consumer:
+
+```bash
+run EVENT
+```
+
+Start the Stream Consumer:
+```bash
+run STREAM
 ```
 
 ### Running the my-producer

@@ -7,30 +7,18 @@ import doobie.implicits._
 import doobie.util.transactor.Transactor
 import doobie.util.update.Update0
 import doobie.util.query.Query0
+import io.cloudevents.CloudEvent
 
 package object db {
 
-  val xa: Transactor[IO] = Transactor.fromDriverManager[IO](
+  private val xa: Transactor[IO] = Transactor.fromDriverManager[IO](
     "org.postgresql.Driver",
     "jdbc:postgresql://localhost/postgres",
     "postgres",
     "postgres"
   )
 
-  def findBookTitle(id: Int): String = {
-    val sql: Query0[String] =
-      sql"""
-            |SELECT title
-            |FROM books
-            |WHERE id = $id
-            |"""
-        .stripMargin
-        .query[String]
-
-    sql.unique.transact(xa).unsafeRunSync()
-  }
-
-  def saveBook(book: Book): Int = {
+  private def saveBook(book: Book): Int = {
     val bookType: String = book.`type`.value
     val bookReleaseDate: String = book.releaseDate.toString
 
@@ -42,5 +30,36 @@ package object db {
       .update
 
     sql.run.transact(xa).unsafeRunSync()
+  }
+
+  def saveEvents(events: List[CloudEvent]): Unit = {
+    println("printing events ...")
+
+    events.foreach {
+      event => {
+        val maybeBook = Book.buildBookFromEvent(event)
+        maybeBook match {
+          case Left(_) => println("decoding book json error!")
+          case Right(book) => {
+            println(s"--------------- Saving a Book: -------------------")
+            Book.print(book)
+            saveBook(book)
+          }
+        }
+      }
+    }
+  }
+
+  def findBookTitle(id: Int): String = {
+    val sql: Query0[String] =
+      sql"""
+           |SELECT title
+           |FROM books
+           |WHERE id = $id
+           |"""
+        .stripMargin
+        .query[String]
+
+    sql.unique.transact(xa).unsafeRunSync()
   }
 }
