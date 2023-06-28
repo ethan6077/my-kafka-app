@@ -9,9 +9,10 @@ val circeVersion = "0.14.1"
 val specs2Version = "4.17.0"
 
 val myDependencies = Seq(
-  "org.apache.kafka"        % "kafka-clients"                 % "3.4.0",
-  "org.apache.kafka"        %% "kafka-streams-scala"          % "3.4.0",
-  "io.cloudevents"          % "cloudevents-kafka"             % "2.4.2",
+  "org.apache.kafka"        % "kafka-clients"                 % "3.5.0",
+  "org.apache.kafka"        %% "kafka-streams-scala"          % "3.5.0",
+  "org.typelevel"           %% "cats-effect"                  % "3.5.0",
+  "io.cloudevents"          % "cloudevents-kafka"             % "2.5.0",
   "org.slf4j"               % "slf4j-simple"                  % "2.0.7",
   "io.circe"                %% "circe-core"                   % circeVersion,
   "io.circe"                %% "circe-generic"                % circeVersion,
