@@ -101,3 +101,10 @@ cd my-producer
 sbt run
 ```
 
+## Event Consumer Arch
+
+![img](./docs/img/Event-Consumer-Arch.png)
+
+## Stream Consumer Arch
+
+![img](./docs/img/Sreaming-Arch.png)
