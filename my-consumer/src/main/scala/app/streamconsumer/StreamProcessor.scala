@@ -11,7 +11,6 @@ import org.apache.kafka.streams.scala.StreamsBuilder
 import org.apache.kafka.streams.scala.kstream.{KStream, KTable}
 import org.apache.kafka.streams.{KafkaStreams, StreamsConfig, Topology}
 
-import java.time.Duration
 import java.util.Properties
 
 object StreamProcessor {
@@ -45,7 +44,7 @@ object StreamProcessor {
     }
   }
 
-  private def buildStreams: KafkaStreams = {
+  def buildStreams: KafkaStreams = {
     val props: Properties = initStreamProps
     val builder: StreamsBuilder = new StreamsBuilder()
     val sourceOfBooks: KStream[String, CloudEvent] = builder.stream[String, CloudEvent]("my-books-topic")
@@ -65,16 +64,16 @@ object StreamProcessor {
     streams
   }
 
-  def buildStreamResource: Resource[IO, KafkaStreams] = {
-    Resource.make {
-      IO(buildStreams)
-    } { streams =>
-      IO {
-        println("Resource is closing ...")
-        streams.close()
-//        streams.close(Duration.ofSeconds(10))
-      }
-    }
-  }
+//  def buildStreamResource: Resource[IO, KafkaStreams] = {
+//    Resource.make {
+//      IO(buildStreams)
+//    } { streams =>
+//      IO {
+//        println("Resource is closing ...")
+//        streams.close()
+////        streams.close(Duration.ofSeconds(10))
+//      }
+//    }
+//  }
 
 }

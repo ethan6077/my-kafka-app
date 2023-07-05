@@ -48,8 +48,8 @@ package object producer {
 
   def consCloudEvent(): CloudEvent = {
     val releaseDate = LocalDate.parse("2022-10-01")
-    //    val myBook = Book("ethan", "Magic Book", Comic, 100, releaseDate)
     val myBook = Book("ethan", "Magic Book", Tech, 100, releaseDate)
+//    val myBook = Book("ethan", "Magic Book", Comic, 100, releaseDate)
     val payload = myBook.asJson.noSpaces.getBytes()
 
     CloudEventBuilder

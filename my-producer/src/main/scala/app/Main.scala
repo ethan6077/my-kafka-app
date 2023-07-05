@@ -16,8 +16,8 @@ object Main extends IOApp {
 
     producerResource.use {
       producerClient => {
-        //  val key = "COMIC"
         val key = "TECH"
+//        val key = "COMIC"
         val value = producer.consCloudEvent()
         IO(producer.send(producerClient, key, value))
       }

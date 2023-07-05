@@ -1,9 +1,13 @@
 package app
 
 import app.eventconsumer.EventConsumerClient
+import app.streamconsumer.{EventProcessor, StreamProcessor}
 import cats.effect.{ExitCode, IO, IOApp, Resource}
 import io.cloudevents.CloudEvent
 import org.apache.kafka.clients.consumer.KafkaConsumer
+import org.apache.kafka.streams.KafkaStreams
+
+import java.time.Duration
 
 object Main extends IOApp {
 
@@ -27,7 +31,10 @@ object Main extends IOApp {
     if (flag == "EVENT") {
       startEventConsumer
     } else if (flag == "STREAM") {
-      startStreamConsumer
+      val streams: KafkaStreams = StreamProcessor.buildStreams
+      streams.start()
+
+      startStreamUltConsumer
     } else {
       IO.unit
     }
@@ -51,13 +58,19 @@ object Main extends IOApp {
     }
   }
 
-  // TODO: implement it
-  private def startStreamConsumer: IO[Unit] = {
-    //      val streams: KafkaStreams = StreamProcessor.buildStreams()
-    //      streams.start()
-    //      val myConsumer = EventProcessor.buildStringConsumer()
+  private def startStreamUltConsumer: IO[Unit] = {
+    val myUltimateConsumerResource = EventProcessor.buildResource
 
-    IO.unit
+    myUltimateConsumerResource.use {
+      consumerClient => {
+        IO {
+          while (true) {
+            println("starting polling stream events ...")
+            EventProcessor.receiveStringEvents(consumerClient)
+          }
+        }
+      }
+    }
   }
 
 }
