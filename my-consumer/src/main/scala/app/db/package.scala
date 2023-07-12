@@ -22,12 +22,13 @@ package object db {
     val bookType: String = book.`type`.value
     val bookReleaseDate: String = book.releaseDate.toString
 
-    val sql: Update0 = sql"""
-          |INSERT INTO books (author, title, type, pages, release_date)
-          |VALUES (${book.author}, ${book.title}, $bookType, ${book.pages}, TO_DATE($bookReleaseDate, 'YYYY-MM-DD'))
-          |"""
-      .stripMargin
-      .update
+    val sql: Update0 =
+      sql"""
+           |INSERT INTO books (author, title, type, pages, release_date)
+           |VALUES (${book.author}, ${book.title}, $bookType, ${book.pages}, TO_DATE($bookReleaseDate, 'YYYY-MM-DD'))
+           |"""
+        .stripMargin
+        .update
 
     sql.run.transact(xa).unsafeRunSync()
   }

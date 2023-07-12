@@ -11,12 +11,15 @@ import java.time.Duration
 import scala.jdk.CollectionConverters.{IterableHasAsJava, IterableHasAsScala}
 
 object EventConsumerClient {
+
+  private val TOPIC_NAME = "my-books-topic"
+
   private def build: KafkaConsumer[String, CloudEvent] = {
     val props = utils.initProps()
     val newConsumer: KafkaConsumer[String, CloudEvent] =
       new KafkaConsumer[String, CloudEvent](props, new StringDeserializer, new CloudEventDeserializer)
 
-    newConsumer.subscribe(List("my-books-topic").asJavaCollection)
+    newConsumer.subscribe(List(TOPIC_NAME).asJavaCollection)
 
     newConsumer
   }

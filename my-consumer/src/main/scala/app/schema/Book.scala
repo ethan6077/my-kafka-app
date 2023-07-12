@@ -12,6 +12,7 @@ case class Book(author: String, title: String, `type`: BookType, pages: Int, rel
 
 object Book {
   def buildBookFromEvent(event: CloudEvent): Either[CirceError, Book] = {
+    // I am converting the bytes to json string, then decode the json
     val jsonString = event.getData.toBytes.map(_.toChar).mkString
     decode[Book](jsonString)
   }

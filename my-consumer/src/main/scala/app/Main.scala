@@ -46,7 +46,7 @@ object Main extends IOApp {
         IO {
           while (true) {
             println("starting polling ...")
-            val receivedEvents = EventConsumerClient.receiveCloudEvents(consumerClient)
+            val receivedEvents: List[CloudEvent] = EventConsumerClient.receiveCloudEvents(consumerClient)
             db.saveEvents(receivedEvents)
             // commit to kafka
             consumerClient.commitSync()
