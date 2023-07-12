@@ -38,6 +38,28 @@ http://localhost:8081
 | TECH | YES |
 | NOVEL| YES |
 
+### Running the my-producer
+
+```bash
+cd my-producer
+```
+
+```bash
+sbt
+```
+
+Send a TECH Book:
+
+```bash
+run TECH
+```
+
+Send a COMIC Book:
+
+```bash
+run COMIC
+```
+
 ### Running the my-consumer
 
 ```bash
@@ -59,15 +81,7 @@ Start the Stream Consumer:
 run STREAM
 ```
 
-### Running the my-producer
 
-```bash
-cd my-producer
-```
-
-```bash
-sbt run
-```
 
 ## Event Consumer Arch
 

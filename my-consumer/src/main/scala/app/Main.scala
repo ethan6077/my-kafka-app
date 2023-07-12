@@ -7,8 +7,6 @@ import io.cloudevents.CloudEvent
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.streams.KafkaStreams
 
-import java.time.Duration
-
 object Main extends IOApp {
 
   override def run(args: List[String]): IO[ExitCode] = {

@@ -1,6 +1,6 @@
 package app
 
-import app.schema.{Book, Comic, Tech}
+import app.schema.Book
 import cats.effect.{IO, Resource}
 import io.circe.syntax.EncoderOps
 import io.cloudevents.CloudEvent
@@ -11,11 +11,14 @@ import org.apache.kafka.clients.producer.{KafkaProducer, ProducerConfig, Produce
 import org.apache.kafka.common.serialization.StringSerializer
 
 import java.net.URI
-import java.time.{LocalDate, OffsetDateTime}
+import java.time.OffsetDateTime
 import java.util.{Properties, UUID}
 
 package object producer {
-  def build: KafkaProducer[String, CloudEvent] = {
+
+  private val TOPIC_NAME = "my-books-topic"
+
+  private def build: KafkaProducer[String, CloudEvent] = {
     val producerProps = new Properties()
     producerProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092")
     producerProps.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "PLAINTEXT")
@@ -31,7 +34,7 @@ package object producer {
       IO(build)
     } { producer =>
       IO {
-        println("Resource is closing ...")
+        println("Producer is closing ...")
         producer.flush()
         producer.close()
       }
@@ -41,16 +44,14 @@ package object producer {
   def send(producerClient: KafkaProducer[String, CloudEvent], key: String, value: CloudEvent): Unit = {
     println("sending a new message ...")
 
-    val record = new ProducerRecord("my-books-topic", key, value)
+    val record = new ProducerRecord(TOPIC_NAME, key, value)
 
     producerClient.send(record).get()
   }
 
-  def consCloudEvent(): CloudEvent = {
-    val releaseDate = LocalDate.parse("2022-10-01")
-    val myBook = Book("ethan", "Magic Book", Tech, 100, releaseDate)
-//    val myBook = Book("ethan", "Magic Book", Comic, 100, releaseDate)
-    val payload = myBook.asJson.noSpaces.getBytes()
+  def consCloudEvent(book: Book): CloudEvent = {
+    // I use JSON to serialise data here for simplicity, we can also use avro and protobuf
+    val payload = book.asJson.noSpaces.getBytes()
 
     CloudEventBuilder
       .v1()
